@@ -1,5 +1,6 @@
-package com.mhm.mongo.data;
+package com.mhm.mongo.data.PersonDAL;
 
+import com.mhm.mongo.data.person.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

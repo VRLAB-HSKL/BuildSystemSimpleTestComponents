@@ -1,4 +1,4 @@
-package com.mhm.mongo.data;
+package com.mhm.mongo.data.person;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

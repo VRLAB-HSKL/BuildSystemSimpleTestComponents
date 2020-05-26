@@ -1,12 +1,11 @@
 package com.mhm.mongo.service;
 
-import com.mhm.mongo.data.Person;
-import com.mhm.mongo.data.PersonDALImpl;
+import com.mhm.mongo.data.person.Person;
+import com.mhm.mongo.data.PersonDAL.PersonDALImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

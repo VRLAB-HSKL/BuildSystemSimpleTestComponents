@@ -14,12 +14,12 @@ import java.io.IOException;
 
 @Configuration
 public class MongoConfig {
-    private static final String MONGO_DB_URL = "mongodb://localhost:27017";
+    private static final String MONGO_DB_URL = "mongodb://127.0.0.1:27017";
     private static final String MONGO_DB_NAME = "mydatabase";
 
     @Bean
     public MongoClient mongoClient() {
-        return MongoClients.create("mongodb://localhost:4500");
+        return MongoClients.create(MONGO_DB_URL);
     }
 
 

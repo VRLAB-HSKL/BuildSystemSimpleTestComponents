@@ -6,10 +6,21 @@ import java.util.List;
 
 public class Asset {
 
-    @Id
-    private long id;
+    private String assetName;
 
-    private List<Asset> assetList;
+    public Asset() {
 
+    }
 
+    public Asset(String name) {
+        this.assetName = name;
+    }
+
+    public String getAssetName() {
+        return assetName;
+    }
+
+    public void setAssetName(String assetName) {
+        this.assetName = assetName;
+    }
 }

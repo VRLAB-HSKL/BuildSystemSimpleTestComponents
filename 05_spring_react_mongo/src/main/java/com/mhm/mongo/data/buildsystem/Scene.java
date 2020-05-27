@@ -2,25 +2,25 @@ package com.mhm.mongo.data.buildsystem;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Scene {
-
-    @Id
-    private long id;
 
     private String sceneName;
 
     List<Asset> unityAssets;
 
-    BuildPlatform selectedBuildPlatform;
+    String selectedBuildPlatform;
 
     public Scene() {
-
+        this.unityAssets = new ArrayList<Asset>();
     }
 
-    public Scene(String sceneName, List<Asset> assetList, BuildPlatform buildPlatformatform) {
-
+    public Scene(String sceneName, List<Asset> assetList, String buildPlatformatform) {
+        this.sceneName = sceneName;
+        this.unityAssets = assetList;
+        this.selectedBuildPlatform = buildPlatformatform;
     }
 
     public String getSceneName() {
@@ -31,6 +31,10 @@ public class Scene {
         this.sceneName = sceneName;
     }
 
+    public void addAsset(Asset asset) {
+        unityAssets.add(asset);
+    }
+
     public List<Asset> getUnityAssets() {
         return unityAssets;
     }
@@ -39,11 +43,11 @@ public class Scene {
         this.unityAssets = unityAssets;
     }
 
-    public BuildPlatform getSelectedBuildPlatform() {
+    public String getSelectedBuildPlatform() {
         return selectedBuildPlatform;
     }
 
-    public void setSelectedBuildPlatform(BuildPlatform selectedBuildPlatform) {
+    public void setSelectedBuildPlatform(String selectedBuildPlatform) {
         this.selectedBuildPlatform = selectedBuildPlatform;
     }
 }

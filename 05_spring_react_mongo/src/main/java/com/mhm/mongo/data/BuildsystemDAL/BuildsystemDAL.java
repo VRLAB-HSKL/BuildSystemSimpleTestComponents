@@ -9,6 +9,7 @@ public interface BuildsystemDAL {
 
     UnityProject searchByName(String projectName);
     List<Scene> getAllScenesFromProject(String projectName);
-    void createUnityProject(String projectName, List<Scene> scenesList);
+    void createUnityProject(UnityProject unityProject);
+    void deleteUnityProject(UnityProject unityProject);
 
 }

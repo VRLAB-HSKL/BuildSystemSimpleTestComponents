@@ -18,6 +18,21 @@ interface IState {
     lastName: string;
     age: number;
   }]
+
+  projectdata: [{
+    id : number;
+    name : string;
+    description : string;
+    platform : [{
+      name : string;
+    }]
+    status: [{
+      inProgress : boolean;
+      stable : boolean;
+    }]
+    giturl : string;
+    unityversion : string;
+  }]
 }
 
 class PersonList extends Component<IProps, IState> {
@@ -32,8 +47,28 @@ class PersonList extends Component<IProps, IState> {
         firstName : "",
         lastName : "",
         age: 12,
+      }],
+
+      projectdata: [{
+        id : 0,
+        name : "",
+        description : "",
+        platform : [{
+          name : "",
+        }],
+        status: [{
+          inProgress : false,
+          stable : false,
+        }],
+        giturl : "",
+        unityversion : "",
       }]
+
+
+      
     };
+
+   
   }
 
   componentDidMount() {
@@ -42,6 +77,11 @@ class PersonList extends Component<IProps, IState> {
     fetch('/api/persons/getallpersons')
     .then(response => response.json())
     .then(data => this.setState({persons: data, isLoading: false}));
+
+    fetch('/api/data/getallprojectdata')
+    .then(response => response.json())
+    .then(datax => this.setState({projectdata: datax, isLoading: false}));
+   
   }
 
   render() {
@@ -51,6 +91,7 @@ class PersonList extends Component<IProps, IState> {
       return <p>Loading...</p>;
     }
 
+    console.log(this.state.projectdata)
     const personList = persons.map(person => {
       const firstName = `${person.firstName || ''}`;
       const lastName = `${person.lastName || ''}`;

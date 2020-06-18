@@ -63,12 +63,7 @@ class projectDataList extends Component<IProps, IState> {
         gitUrl : "test",
         unityVersion : "2016",
       }]
-
-
-      
     };
-
-   
   }
 
   componentDidMount() {
@@ -96,10 +91,14 @@ class projectDataList extends Component<IProps, IState> {
       const id = project.iD;
       const projectName = `${project.name || ''}`;
       const description = `${project.description || ''}`;
-      const platformList = `${project.platformList|| ''}`;
-      const status = `${project.status|| ''}`;
+      const platformList = `${project.platformList[0].platformName || ''}`;
+      const status = `${project.status || ''}`;
       const giturl = `${project.gitUrl|| ''}`;
       console.log(giturl);
+      console.log(project.platformList);
+      console.log(project.platformList[0].platformName + ", " + project.platformList[1].platformName);
+      
+      
       const unityversion = `${project.unityVersion|| ''}`;
       
       return <tr key={id}>

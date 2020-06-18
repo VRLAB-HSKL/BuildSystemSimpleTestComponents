@@ -20,22 +20,22 @@ interface IState {
   }]
 
   projectdata: [{
-    id : number;
+    iD : number;
     name : string;
     description : string;
-    platform : [{
-      name : string;
+    platformList : [{
+      platformName : string;
     }]
     status: [{
       inProgress : boolean;
       stable : boolean;
     }]
-    giturl : string;
-    unityversion : string;
+    gitUrl : string;
+    unityVersion : string;
   }]
 }
 
-class PersonList extends Component<IProps, IState> {
+class projectDataList extends Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
@@ -50,18 +50,18 @@ class PersonList extends Component<IProps, IState> {
       }],
 
       projectdata: [{
-        id : 0,
+        iD : 0,
         name : "",
         description : "",
-        platform : [{
-          name : "",
+        platformList : [{
+          platformName : "",
         }],
         status: [{
           inProgress : false,
           stable : false,
         }],
-        giturl : "",
-        unityversion : "",
+        gitUrl : "test",
+        unityVersion : "2016",
       }]
 
 
@@ -74,38 +74,46 @@ class PersonList extends Component<IProps, IState> {
   componentDidMount() {
     this.setState({isLoading: true});
 
-    fetch('/api/persons/getallpersons')
-    .then(response => response.json())
-    .then(data => this.setState({persons: data, isLoading: false}));
+    //fetch('/api/persons/getallpersons')
+    //.then(response => response.json())
+    //.then(data => this.setState({persons: data, isLoading: false}));
 
     fetch('/api/data/getallprojectdata')
     .then(response => response.json())
-    .then(datax => this.setState({projectdata: datax, isLoading: false}));
+    .then(data => this.setState({projectdata: data, isLoading: false}));
    
   }
 
   render() {
-    const {persons, isLoading} = this.state;
+    const {projectdata, isLoading} = this.state;
 
     if (isLoading) {
       return <p>Loading...</p>;
     }
 
     console.log(this.state.projectdata)
-    const personList = persons.map(person => {
-      const firstName = `${person.firstName || ''}`;
-      const lastName = `${person.lastName || ''}`;
-      const age = `${person.age || ''}`;
-      const id = `${person.id || ''} `;
-      return <tr key={person.id}>
+    const projectDataList = projectdata.map(project => {
+      const id = project.iD;
+      const projectName = `${project.name || ''}`;
+      const description = `${project.description || ''}`;
+      const platformList = `${project.platformList|| ''}`;
+      const status = `${project.status|| ''}`;
+      const giturl = `${project.gitUrl|| ''}`;
+      console.log(giturl);
+      const unityversion = `${project.unityVersion|| ''}`;
+      
+      return <tr key={id}>
           <td style={{whiteSpace: 'nowrap'}}>{id}</td>
-          <td>{firstName}</td>
-          <td>{lastName}</td>
-          <td>{age}</td>
+          <td>{projectName}</td>
+          <td>{description}</td>
+          <td>{platformList}</td>
+          <td>{status}</td>
+          <td>{giturl}</td>
+          <td>{unityversion}</td>
           
           <td>
               <ButtonGroup>
-                  <Button size="sm" color="primary" tag={Link} to={"/persons"}>Edit</Button>
+                  <Button size="sm" color="primary" tag={Link} to={"/projectdata/" + id}>Edit</Button>
                   <Button size="sm" color="danger" /* delete stuff to do */>Delete</Button>
               </ButtonGroup>
           </td>
@@ -118,7 +126,7 @@ class PersonList extends Component<IProps, IState> {
         <AppNavbar/>
             <Container fluid>
             <div className="float-right">
-                <Button color="success" tag={Link} to="/unityprojects/new">Add Project</Button>
+                <Button color="success" tag={Link} to="/projectdata/new">Add Project</Button>
             </div>
             <h3>Project Manager</h3>
             <Table className="mt-4">
@@ -134,7 +142,7 @@ class PersonList extends Component<IProps, IState> {
                 </tr>
                 </thead>
                 <tbody>
-                    {personList}
+                    {projectDataList}
                 </tbody>
             </Table>
             </Container>
@@ -143,4 +151,4 @@ class PersonList extends Component<IProps, IState> {
   }
 }
 
-export default PersonList;
+export default projectDataList;

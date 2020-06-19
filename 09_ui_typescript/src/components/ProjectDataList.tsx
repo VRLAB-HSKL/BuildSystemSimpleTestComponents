@@ -91,12 +91,18 @@ class projectDataList extends Component<IProps, IState> {
       const id = project.iD;
       const projectName = `${project.name || ''}`;
       const description = `${project.description || ''}`;
-      const platformList = `${project.platformList[0].platformName || ''}`;
+      let platform: string = "";
+      let platFormList = project.platformList;
+      //let platformList = `${project.platformList || ''}`; //[object Object],[object Object]
+      for(let key in platFormList) {
+        platform += ' ['+ platFormList[key].platformName + ']';
+      }
       const status = `${project.status || ''}`;
       const giturl = `${project.gitUrl|| ''}`;
       console.log(giturl);
-      console.log(project.platformList);
-      console.log(project.platformList[0].platformName + ", " + project.platformList[1].platformName);
+      console.log(project.platformList[0]);
+      console.log(project.platformList[0]);
+      console.log(platform);
       
       
       const unityversion = `${project.unityVersion|| ''}`;
@@ -105,7 +111,7 @@ class projectDataList extends Component<IProps, IState> {
           <td style={{whiteSpace: 'nowrap'}}>{id}</td>
           <td>{projectName}</td>
           <td>{description}</td>
-          <td>{platformList}</td>
+          <td>{platform}</td>
           <td>{status}</td>
           <td>{giturl}</td>
           <td>{unityversion}</td>

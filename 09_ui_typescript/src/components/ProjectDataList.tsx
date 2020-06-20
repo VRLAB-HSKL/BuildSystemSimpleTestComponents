@@ -12,6 +12,7 @@ interface IProps {
 
 interface IState {
   isLoading: boolean;
+  error : boolean;
   persons: [{
     id: number;
     firstName: string;
@@ -26,10 +27,10 @@ interface IState {
     platformList : [{
       platformName : string;
     }]
-    status: [{
+    status: {
       inProgress : boolean;
       stable : boolean;
-    }]
+    }
     gitUrl : string;
     unityVersion : string;
   }]
@@ -42,6 +43,7 @@ class projectDataList extends Component<IProps, IState> {
 
     this.state = {
       isLoading: true,
+      error: false,
       persons: [{
         id: 0,
         firstName : "",
@@ -56,10 +58,10 @@ class projectDataList extends Component<IProps, IState> {
         platformList : [{
           platformName : "",
         }],
-        status: [{
+        status: {
           inProgress : false,
           stable : false,
-        }],
+        },
         gitUrl : "test",
         unityVersion : "2016",
       }]
@@ -75,7 +77,11 @@ class projectDataList extends Component<IProps, IState> {
 
     fetch('/api/data/getallprojectdata')
     .then(response => response.json())
-    .then(data => this.setState({projectdata: data, isLoading: false}));
+    .then(data => this.setState({projectdata: data, isLoading: false}))
+    .catch(error => this.setState({
+      isLoading: false,
+      error: true
+    }));
    
   }
 
@@ -97,8 +103,23 @@ class projectDataList extends Component<IProps, IState> {
       for(let key in platFormList) {
         platform += ' ['+ platFormList[key].platformName + ']';
       }
-      const status = `${project.status || ''}`;
+      
+      let statuscode = project.status;
+      let statusstring: string = '';
+      if (statuscode.inProgress && !statuscode.stable) {
+        statusstring = 'inProgress';
+      }
+
+      if (!statuscode.inProgress && statuscode.stable) {
+        statusstring = 'stable'
+      }
+
+      if (!statuscode.inProgress && !statuscode.stable) {
+        statusstring = 'not defined yet'
+      }
+      
       const giturl = `${project.gitUrl|| ''}`;
+
       console.log(giturl);
       console.log(project.platformList[0]);
       console.log(project.platformList[0]);
@@ -112,7 +133,7 @@ class projectDataList extends Component<IProps, IState> {
           <td>{projectName}</td>
           <td>{description}</td>
           <td>{platform}</td>
-          <td>{status}</td>
+          <td>{statusstring}</td>
           <td>{giturl}</td>
           <td>{unityversion}</td>
           

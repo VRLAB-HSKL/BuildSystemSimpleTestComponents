@@ -17,10 +17,10 @@ interface IState {
     platformList : [{
       platformName : string;
     }]
-    status: [{
+    status: {
       inProgress : boolean;
       stable : boolean;
-    }]
+    }
     gitUrl : string;
     unityVersion : string;
   }
@@ -42,10 +42,10 @@ class EditProjectData extends Component<IProps, IState> {
                 platformList: [{
                     platformName: '',
                 }],
-                status: [{
+                status: {
                     inProgress : false,
                     stable : false,
-                  }],
+                  },
                   gitUrl : '',
                   unityVersion : '',
               }
@@ -70,6 +70,7 @@ class EditProjectData extends Component<IProps, IState> {
     render() {
         const {item} = this.state;
         const title = <h2>{item.iD ? 'Edit Project' : 'Add Project'}</h2>;
+        console.log(this.props.match.params.id) //need for query / update a single project
     
         return <div>
           <AppNavbar/>

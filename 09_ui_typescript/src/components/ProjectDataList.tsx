@@ -141,6 +141,7 @@ class projectDataList extends Component<IProps, IState> {
               <ButtonGroup>
                   <Button size="sm" color="primary" tag={Link} to={"/projectdata/" + id}>Edit</Button>
                   <Button size="sm" color="danger" /* delete stuff to do */>Delete</Button>
+                  <Button size="sm" color="primary">Create</Button>
               </ButtonGroup>
           </td>
       </tr>

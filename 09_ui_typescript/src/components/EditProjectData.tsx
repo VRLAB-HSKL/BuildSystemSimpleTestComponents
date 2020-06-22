@@ -5,11 +5,12 @@ import AppNavbar from './AppNavbar';
 
 interface IProps extends RouteComponentProps<any> {
     title: string;
+    id: number;
 }
 
 interface IState {
   
-  item: {
+  dataItem: {
    
     iD : number;
     name : string;
@@ -24,7 +25,16 @@ interface IState {
     gitUrl : string;
     unityVersion : string;
   }
+
+  status: {
+    inProgress: number;
+    stable: number;
+  }
+
+  platformNames: string;
+  
 }
+
 
 
 class EditProjectData extends Component<IProps, IState> {
@@ -34,7 +44,7 @@ class EditProjectData extends Component<IProps, IState> {
 
         this.state = {
 
-            item: {
+            dataItem: {
                
                 iD: 0,
                 name: '',
@@ -48,15 +58,35 @@ class EditProjectData extends Component<IProps, IState> {
                   },
                   gitUrl : '',
                   unityVersion : '',
-              }
+            },
+
+            status: {
+              inProgress: 0,
+              stable: 0,
+            },
+
+            platformNames : '',
+            
+
+
         };
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
 
-    async componentDidMount() {
-        
+      async componentDidMount() {
+        if (this.props.match.params.id !== 'new') {
+          console.log('/api/data/findById/'+ this.props.match.params.id)
+          const data = await (await fetch(`/api/data/findById/?id=${this.props.match.params.id}`)).json();
+          this.setState({dataItem: data});
+
+          let platformList = this.state.dataItem.platformList;
+          for(let key in platformList) {
+            this.setState({platformNames: platformList[key].platformName });
+          }
+        }
       }
     
       handleChange() {
@@ -68,9 +98,16 @@ class EditProjectData extends Component<IProps, IState> {
       }
 
     render() {
-        const {item} = this.state;
-        const title = <h2>{this.props.match.params.id ? 'Edit Project' : 'Add Project'}</h2>;
+        const {status, dataItem} = this.state;
+        const title = <h2>{dataItem.iD ? 'Edit Group' : 'Add Group'}</h2>;
         console.log(this.props.match.params.id) //need for query / update a single project
+        let platformName : string = '';
+        let plaformList = dataItem.platformList;
+        for(let key in plaformList) {
+          platformName += ' ['+ plaformList[key].platformName + ']';
+        }
+
+        let gitstatus = dataItem.status;
     
         return <div>
           <AppNavbar/>
@@ -79,17 +116,17 @@ class EditProjectData extends Component<IProps, IState> {
             <Form onSubmit={this.handleSubmit}>
               <FormGroup>
                 <Label for="name">Project Name</Label>
-                <Input type="text" name="name" id="name" value={item.name || ''}
+                <Input type="text" name="name" id="name" value={dataItem.name || ''}
                        onChange={this.handleChange} autoComplete="name"/>
               </FormGroup>
               <FormGroup>
                 <Label for="description">Description</Label>
-                <Input type="text" name="description" id="description" value={item.description || ''}
+                <Input type="text" name="description" id="description" value={dataItem.description || ''}
                        onChange={this.handleChange} autoComplete="description"/>
               </FormGroup>
               <FormGroup>
                 <Label for="platformlist">Platform</Label>
-                <Input type="text" name="platformlist" id="platformlist"
+                <Input type="text" name="platformlist" id="platformlist" value={platformName}
                        onChange={this.handleChange} autoComplete="platformlist"/>
               </FormGroup>
               <FormGroup row>
@@ -97,13 +134,13 @@ class EditProjectData extends Component<IProps, IState> {
                 <Col sm={{ size: 10 }}>
                   <FormGroup check>
                     <Label check>
-                      <Input type="checkbox" id="inprogress" />{' '}
+                      <Input type="checkbox" id="inprogress" value={status.inProgress} />{' '}
                       in Progress
                     </Label>
                   </FormGroup>
                   <FormGroup check>
                     <Label check>
-                      <Input type="checkbox" id="stable" />{' '}
+                      <Input type="checkbox" id="stable" value={status.stable} />{' '}
                       Stable
                     </Label>
                   </FormGroup>
@@ -111,12 +148,12 @@ class EditProjectData extends Component<IProps, IState> {
               </FormGroup>
               <FormGroup>
                 <Label for="gitUrl">Git-Url</Label>
-                <Input type="text" name="giturl" id="giturl" value={item.gitUrl || ''}
+                <Input type="text" name="giturl" id="giturl" value={dataItem.gitUrl || ''}
                         onChange={this.handleChange} autoComplete="giturl" />
               </FormGroup>
               <FormGroup>
                 <Label for="unityVersion">Unity Version</Label>
-                <Input type="text" name="unityVersion" id="unityVersion" value={item.unityVersion || ''}
+                <Input type="text" name="unityVersion" id="unityVersion" value={dataItem.unityVersion || ''}
                         onChange={this.handleChange} autoComplete="unityVersion" />
               </FormGroup>
               <FormGroup>

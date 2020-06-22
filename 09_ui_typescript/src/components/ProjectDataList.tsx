@@ -66,6 +66,8 @@ class projectDataList extends Component<IProps, IState> {
         unityVersion : "2016",
       }]
     };
+
+    this.remove.bind(this);
   }
 
   componentDidMount() {
@@ -75,7 +77,7 @@ class projectDataList extends Component<IProps, IState> {
     //.then(response => response.json())
     //.then(data => this.setState({persons: data, isLoading: false}));
 
-    fetch('/api/data/getallprojectdata')
+    fetch('/api/data/findAll')
     .then(response => response.json())
     .then(data => this.setState({projectdata: data, isLoading: false}))
     .catch(error => this.setState({
@@ -83,6 +85,18 @@ class projectDataList extends Component<IProps, IState> {
       error: true
     }));
    
+  }
+
+  async remove(id : number) {
+    console.log('delete: ' + `/api/data/deleteById/?id=${id}`);
+    await fetch(`/api/data/deleteById/?id=${id}`)
+    fetch('/api/data/findAll')
+    .then(response => response.json())
+    .then(data => this.setState({projectdata: data, isLoading: false}))
+    .catch(error => this.setState({
+      isLoading: false,
+      error: true
+    }));
   }
 
   render() {
@@ -140,7 +154,7 @@ class projectDataList extends Component<IProps, IState> {
           <td>
               <ButtonGroup>
                   <Button size="sm" color="primary" tag={Link} to={"/projectdata/" + id}>Edit</Button>
-                  <Button size="sm" color="danger" /* delete stuff to do */>Delete</Button>
+                  <Button size="sm" color="danger" onClick={() => this.remove(id)}>Delete</Button>
                   <Button size="sm" color="primary">Create</Button>
               </ButtonGroup>
           </td>

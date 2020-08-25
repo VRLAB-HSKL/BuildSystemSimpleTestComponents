@@ -118,3 +118,6 @@ sysinfo.txt
 # vi backups
 **/*~
 
+# environment variables
+.env
+

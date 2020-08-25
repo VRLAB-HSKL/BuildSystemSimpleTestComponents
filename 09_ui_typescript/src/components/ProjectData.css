@@ -1,0 +1,27 @@
+#id {
+    width: 5%;
+}
+
+#name {
+    width: 15%;
+}
+
+#desc {
+    width: 20%;
+}
+
+#platform {
+    width: 15%; 
+}
+
+#status {
+    width: 5%; 
+}
+
+#github {
+    width: 15%; 
+}
+
+#unity-vers {
+    width: 10%; 
+}
